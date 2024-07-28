@@ -6,6 +6,7 @@ import { RoleGuard } from 'src/auth/role.guard';
 import { Roles } from 'src/auth/role.decorator';
 import { UserDto } from './user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { GetUser } from 'src/auth/user.decorator';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RoleGuard)
@@ -13,15 +14,15 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class UserController {
     constructor(private readonly usersService: UserService) { }
 
-    @Get('admin')
-    @Roles('admin')
-    async getSomeAdmin() {
-        return "SomeAdmin";
-    }
+    // @Get('admin')
+    // @Roles('admin')
+    // async getSomeAdmin() {
+    //     return "SomeAdmin";
+    // }
 
-    @Get()
-    @Roles('user')
-    async getSome() {
-        return "Some";
+    @Get('admin')
+    //@Roles('user')
+    async getSome(@GetUser() user: any) {
+        return user;
     }
 }
